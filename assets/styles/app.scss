@@ -1,15 +1,16 @@
-@import '~font-awesome';
-@import '~bulma';
+@use 'variables';
+@use 'utils';
+@use 'reset';
+@use 'base';
 
-body {
-  min-height: 100vh;
-}
 
-main{
-  flex-grow: 1;
-}
+/* layout */
+@use 'layout/footer';
+@use 'layout/header';
 
-.navbar-item img {
-  max-height: none;
-  max-width: 220px;
-}
+
+/* components */
+
+@use 'components/buttons';
+@use 'components/form';
+

@@ -1,0 +1,22 @@
+@use '../mixin' as *;
+
+
+.header-logo {
+  width: 230px;
+}
+
+.header-logo img {
+  max-width: 230px;
+}
+
+.burger {
+  font-size: var(--font-size-large);
+}
+
+.menu-xs {
+  a {
+    margin: 10px 15px;
+  }
+  border-bottom: var(--border);
+  box-shadow: var(--box-shadow);
+}
