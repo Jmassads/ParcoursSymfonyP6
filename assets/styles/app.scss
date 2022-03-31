@@ -1,0 +1,15 @@
+@import '~font-awesome';
+@import '~bulma';
+
+body {
+  min-height: 100vh;
+}
+
+main{
+  flex-grow: 1;
+}
+
+.navbar-item img {
+  max-height: none;
+  max-width: 220px;
+}
