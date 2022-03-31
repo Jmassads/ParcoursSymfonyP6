@@ -1,17 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Snowtricks
+{% block title %}Wonder
 {% endblock %}
 
 {% block body %}
-    <section class="hero">
-        <div class="hero-body">
-            <p class="title">
-                Hero title
-            </p>
-            <p class="subtitle">
-                Hero subtitle
-            </p>
-        </div>
-    </section>
+
+    <ul>
+        {% for trick in tricks %}
+            <a href="{{ path('trick_show', { id: trick.id  }) }}" class="block block-shadow d-flex flex-row mb-20">
+                <div class="flex-fill d-flex flex-column">
+                    <div class="mb-20 question-content pb-20">
+                        <h3 class="mb-20">{{ trick.title }}</h3>
+                        <p>{{ trick.content }}</p>
+                    </div>
+                    <div class="d-flex flex-row justify-content-between">
+                        <div class="d-flex flex-row align-items-center">
+                            <img class="avatar mr-10" src="{{ trick.author.avatar }}"/>
+                            <small>Demandé par <span class="clickable">{{ trick.author.name }}</span></small>
+                        </div>
+                    </div>
+                </div>
+
+            </a>
+        {% endfor %}
+    </ul>
+
 {% endblock %}
