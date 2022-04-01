@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Trick;
 use App\Form\TrickType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,13 +14,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class TrickController extends AbstractController
 {
     #[Route('/add', name: 'form')]
-    public function index(Request $request): Response
+    public function index(Request $request, EntityManagerInterface $em): Response
     {
-        $formTrick = $this->createForm(TrickType::class);
+        $trick = new Trick();
+        $formTrick = $this->createForm(TrickType::class, $trick);
         $formTrick->handleRequest($request);
 
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
-            dump($formTrick->getData());
+            $trick->setCreatedAt(new \DateTimeImmutable());
+            $em->persist($trick);
+            $em->flush();
+            $this->addFlash('success', 'Votre trick a été ajouté');
+            return $this->redirectToRoute('home');
         }
         return $this->render('trick/index.html.twig', [
             'form' => $formTrick->createView(),
@@ -26,17 +33,8 @@ class TrickController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show')]
-    public function show(Request $request, string $id): Response
+    public function show(Trick $trick): Response
     {
-        $trick = [
-            'title' => 'Je suis trick 1',
-            'content' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, adipisci. Libero aperiam dolores excepturi, quidem maxime accusantium inventore. Illum, odio dolores! Ullam omnis veritatis laborum, animi inventore nostrum optio voluptates.',
-            'author' => [
-                'name' => 'Jean Dupont',
-                'avatar' => 'https://randomuser.me/api/portraits/men/52.jpg'
-            ],
-            'nbrOfResponse' => 15
-        ];
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
         ]);
