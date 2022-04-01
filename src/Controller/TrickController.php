@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Form\CommentType;
 use App\Form\TrickType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,10 +35,22 @@ class TrickController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show')]
-    public function show(Trick $trick): Response
+    public function show(Request $request, Trick $trick, EntityManagerInterface $em): Response
     {
+        $comment = new Comment();
+        $commentForm = $this->createForm(CommentType::class, $comment);
+        $commentForm->handleRequest($request);
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $comment->setCreatedAt(new \DateTimeImmutable());
+            $comment->setTrick($trick);
+            $em->persist($comment);
+            $em->flush();
+            $this->addFlash('success', 'Votre commentraire a bien été ajouté');
+            return $this->redirect($request->getUri());
+        }
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
+            'form' => $commentForm->createView()
         ]);
     }
 }

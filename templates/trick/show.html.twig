@@ -6,8 +6,28 @@
 {% block body %}
 
     <div class="block">
-        <h1>{{ trick.title }}</h1>
-        <p>{{ trick.content }}</p>
+        <div class="mb-20">
+            <h1>{{ trick.title }}</h1>
+            <p>{{ trick.content }}</p>
+        </div>
+        <div class="separator"></div>
+        {% for comment in trick.comments %}
+            <div class="mb-20">
+                <div class="d-flex flex-row-nowrap align-items-center pb-10">
+                    <img class="avatar mr-10" src="https://randomuser.me/api/portraits/men/51.jpg">
+                    <p class="clickable">auteur</p>
+                    <small class="ml-auto">{{ comment.createdAt | ago(locale="fr") }}</small>
+                </div>
+                <p class="question-response-text">{{ comment.content }}</p>
+            </div>
+        {% endfor %}
+        <div class="comment-form">
+            <h3 class="pb-20">Votre commentaire</h3>
+            {{ form_start(form) }}
+            {{ form_rest(form) }}
+            <button class="btn btn-primary">Envoyer</button>
+            {{ form_end(form) }}
+        </div>
     </div>
 
 {% endblock %}
