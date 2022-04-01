@@ -28,3 +28,13 @@ textarea {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-semi-bold);
 }
+
+.flash {
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+.flash-success {
+  background-color: var(--success);
+}
